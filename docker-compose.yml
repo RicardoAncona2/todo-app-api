@@ -1,0 +1,27 @@
+
+services:
+  postgres:
+    image: postgres
+    container_name: todo-postgres
+    environment:
+      POSTGRES_USER: your_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: todo-backend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://your_user:your_password@postgres:5432/your_db
+    command: npm run start:prod
+
+volumes:
+  postgres_data:

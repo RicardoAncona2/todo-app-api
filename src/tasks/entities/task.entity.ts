@@ -1,20 +1,25 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { User } from 'src/users';
 
-export const TaskStatus = {
-  PENDING: 'PENDING',
-  IN_PROGRESS: 'IN_PROGRESS',
-  DONE: 'DONE',
-} as const;
-
-export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus];
+export enum TaskStatus {
+  PENDING = 'PENDING',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+}
 
 registerEnumType(TaskStatus, {
   name: 'TaskStatus',
 });
 
-@ObjectType() 
+@ObjectType()
 @Entity()
 export class Task {
   @Field(() => ID)
@@ -30,7 +35,7 @@ export class Task {
   description: string;
 
   @Field(() => TaskStatus)
-  @Column({ type: 'enum', enum: TaskStatus })
+  @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.PENDING })
   status: TaskStatus;
 
   @Field()
