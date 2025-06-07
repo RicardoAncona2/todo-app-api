@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/graphql",
-      "destination": "/api/graphql"
+      "destination": "http://localhost:3000/graphql"
     }
   ]
 }
