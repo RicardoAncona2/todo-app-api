@@ -20,9 +20,7 @@ import { ApolloDriver, } from '@nestjs/apollo';
       type: 'postgres',
       host: 'postgres',
       port: 5432,
-      username: 'your_user',
-      password: 'your_password',
-      database: 'your_db',
+      url:process.env.DATABASE_URL,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // false in production
     }),
