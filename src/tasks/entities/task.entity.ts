@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { User } from 'src/users';
+import { User } from '@users/index';
 
 export enum TaskStatus {
   PENDING = 'PENDING',

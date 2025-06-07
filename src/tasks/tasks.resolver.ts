@@ -4,9 +4,9 @@ import { UseGuards } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { Task } from './entities/task.entity';
 import { CreateTaskInput,UpdateTaskInput } from './dto/';
-import { GqlAuthGuard } from 'src/auth/guards/gql-auth.guard';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/users/entities/user.entity';
+import { GqlAuthGuard } from '@auth/guards/gql-auth.guard';
+import { CurrentUser } from '@auth/decorators/current-user.decorator';
+import { User } from '@users/entities/user.entity';
 
 @Resolver(() => Task)
 export class TasksResolver {

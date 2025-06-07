@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { RegisterUserInput, LoginUserInput, AuthPayload } from './dto';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '@users/entities';
 
 describe('AuthResolver', () => {
   let resolver: AuthResolver;

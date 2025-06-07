@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID, HideField } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Task } from 'src/tasks';
+import { Task } from '@tasks/index';
 
 @ObjectType()
 @Entity()

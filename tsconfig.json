@@ -9,11 +9,11 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "paths": {
-      "src/*": [
-        "src/*"
-      ]
+    "baseUrl": "./src",
+     "paths": {
+      "@users/*": ["users/*"],
+      "@tasks/*": ["tasks/*"],
+      "@auth/*": ["auth/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
