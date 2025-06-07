@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const core_1 = require("@nestjs/core");
-const app_module_1 = require("../src/app.module");
+const app_module_1 = require("../app.module");
 const platform_express_1 = require("@nestjs/platform-express");
 const serverless_http_1 = require("serverless-http");
 const express_1 = require("express");
