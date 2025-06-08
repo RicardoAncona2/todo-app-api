@@ -13,18 +13,17 @@ import { ConfigModule } from '@nestjs/config';
   GraphQLModule.forRoot({
     driver: ApolloDriver,
     autoSchemaFile: true,
-    playground: true,
+    playground: process.env.NODE_ENV !== 'production',
     introspection: true,
-    csrfPrevention: false, // disable CSRF protection
-
+    csrfPrevention: false,
   }),
   TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'postgres',
-    port: 5432,
     url: process.env.DATABASE_URL,
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    synchronize: true, // false in production
+    synchronize: process.env.NODE_ENV !== 'production',
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    autoLoadEntities: true,
   }),
     AuthModule,
     UsersModule,
