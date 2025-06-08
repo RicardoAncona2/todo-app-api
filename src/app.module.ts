@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ApolloDriver, } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
+
+console.log("url!!",process.env.DATABASE_URL)
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true, // makes env available app-wide

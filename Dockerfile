@@ -20,6 +20,6 @@ COPY tsconfig.json .
 
 # Ensure the container uses the right port environment variable at runtime
 ENV PORT=3000
-
+ENV DATABASE_URL=postgresql://postgres:TQDOKHtGexQUFkCCikkZGSaKwWtWlXxZ@mainline.proxy.rlwy.net:25792/railway
 # Use exec form to allow proper signal forwarding
-CMD ["node", "dist/main"]
+CMD ["npm", "run", "start:prod"]
