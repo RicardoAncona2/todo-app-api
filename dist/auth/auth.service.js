@@ -1,0 +1,75 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthService = void 0;
+const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
+const bcrypt = require("bcrypt");
+const users_service_1 = require("../users/users.service");
+let AuthService = class AuthService {
+    usersService;
+    jwtService;
+    tokenBlacklist = new Set();
+    constructor(usersService, jwtService) {
+        this.usersService = usersService;
+        this.jwtService = jwtService;
+    }
+    async validateUser(email, pass) {
+        const user = await this.usersService.findByEmail(email);
+        if (user && (await bcrypt.compare(pass, user.password))) {
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
+    }
+    async login(user) {
+        const payload = { email: user.email, sub: user.id };
+        const accessToken = this.jwtService.sign(payload, {
+            expiresIn: '15m',
+        });
+        const refreshToken = this.jwtService.sign(payload, {
+            expiresIn: '7d',
+        });
+        return { accessToken, refreshToken };
+    }
+    async register(email, password, name) {
+        const hash = await bcrypt.hash(password, 10);
+        return this.usersService.create({ email, password: hash, name });
+    }
+    async logout(token) {
+        this.tokenBlacklist.add(token);
+    }
+    isTokenBlacklisted(token) {
+        return this.tokenBlacklist.has(token);
+    }
+    async refreshTokens(refreshToken) {
+        try {
+            const payload = this.jwtService.verify(refreshToken);
+            const user = await this.usersService.findByEmail(payload.sub);
+            if (!user)
+                throw new Error('User not found');
+            return this.login(user);
+        }
+        catch (e) {
+            if (e.message === 'User not found') {
+                throw e;
+            }
+            throw new Error('Invalid refresh token');
+        }
+    }
+};
+exports.AuthService = AuthService;
+exports.AuthService = AuthService = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        jwt_1.JwtService])
+], AuthService);
+//# sourceMappingURL=auth.service.js.map
