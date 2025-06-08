@@ -12,14 +12,13 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy built app and node_modules from builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY package*.json ./
-COPY tsconfig.json . 
+COPY tsconfig.json .
 
-# Ensure the container uses the right port environment variable at runtime
 ENV PORT=3000
-ENV DATABASE_URL=postgresql://postgres:TQDOKHtGexQUFkCCikkZGSaKwWtWlXxZ@mainline.proxy.rlwy.net:25792/railway
-# Use exec form to allow proper signal forwarding
-CMD ["npm", "run", "start:prod"]
+
+EXPOSE 3000
+
+CMD ["node", "dist/main"]
