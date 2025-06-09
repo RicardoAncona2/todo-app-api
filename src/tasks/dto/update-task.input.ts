@@ -1,6 +1,6 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 
-@ObjectType()
+@InputType()
 export class UpdateTaskInput {
   @Field(() => ID)
   id: string;
