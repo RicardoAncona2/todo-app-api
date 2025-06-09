@@ -1,4 +1,5 @@
-import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql';
+import { TaskStatus } from '@tasks/entities';
 
 @InputType()
 export class UpdateTaskInput {
@@ -12,6 +13,6 @@ export class UpdateTaskInput {
   description?: string;
 
   @Field()
-  status: 'PENDING' | 'IN_PROGRESS' | 'DONE';
+  status: TaskStatus;
 
 }

@@ -34,17 +34,15 @@ let TasksService = class TasksService {
     }
     async update(id, input, userId) {
         const task = await this.taskRepository.findOne({
-            where: { id },
+            where: { id, user: { id: userId } },
             relations: ['user'],
         });
         if (!task) {
-            throw new common_1.NotFoundException('Task not found');
-        }
-        if (task.user.id !== userId) {
-            throw new common_1.ForbiddenException('You cannot update this task');
+            throw new common_1.NotFoundException('Task not found or you do not have permission to update it');
         }
         Object.assign(task, input);
-        return this.taskRepository.save(task);
+        const updatedTask = await this.taskRepository.save(task);
+        return updatedTask;
     }
     async delete(id, userId) {
         const task = await this.taskRepository.findOne({

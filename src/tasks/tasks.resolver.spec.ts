@@ -92,16 +92,21 @@ describe('TasksResolver', () => {
     });
   });
 
-  describe('updateTask', () => {
-    it('should update a task by id and user', async () => {
-      const input: UpdateTaskInput = { title: 'Updated Task', description: 'Updated Desc' };
-      const taskId = 'task-3';
+describe('updateTask', () => {
+  it('should update a task by id and user', async () => {
+    const input = {
+      title: 'Updated Task',
+      description: 'Updated Desc',
+    } as UpdateTaskInput;
 
-      const result = await resolver.updateTask(taskId, input, mockUser as any);
-      expect(tasksService.update).toHaveBeenCalledWith(taskId, input, mockUser.id);
-      expect(result).toEqual(mockTask);
-    });
+    const taskId = 'task-3';
+
+    const result = await resolver.updateTask(taskId, input, mockUser as any);
+    expect(tasksService.update).toHaveBeenCalledWith(taskId, input, mockUser.id);
+    expect(result).toEqual(mockTask);
   });
+});
+
 
   describe('deleteTask', () => {
     it('should delete a task by id and user', async () => {

@@ -84,7 +84,7 @@ describe('TasksService', () => {
 
   describe('update', () => {
     it('should update and save task when user owns task', async () => {
-      const input: UpdateTaskInput = { title: 'Updated Title' };
+      const input = { title: 'Updated Title' } as UpdateTaskInput;
       mockRepo.findOne.mockResolvedValue({ ...mockTask });
       mockRepo.save.mockResolvedValue({ ...mockTask, ...input });
 
@@ -94,22 +94,27 @@ describe('TasksService', () => {
         where: { id: mockTask.id },
         relations: ['user'],
       });
-      expect(mockRepo.save).toHaveBeenCalled();
+      expect(mockRepo.save).toHaveBeenCalledWith(expect.objectContaining(input));
       expect(result.title).toBe(input.title);
     });
 
     it('should throw NotFoundException if task not found', async () => {
       mockRepo.findOne.mockResolvedValue(null);
 
-      await expect(service.update('nonexistent-id', {}, mockUserId)).rejects.toThrow(NotFoundException);
+      await expect(
+        service.update('nonexistent-id', {} as UpdateTaskInput, mockUserId)
+      ).rejects.toThrow(NotFoundException);
     });
 
     it('should throw ForbiddenException if user does not own task', async () => {
       mockRepo.findOne.mockResolvedValue({ ...mockTask, user: { id: 'other-user' } });
 
-      await expect(service.update(mockTask.id, {}, mockUserId)).rejects.toThrow(ForbiddenException);
+      await expect(
+        service.update(mockTask.id, {} as UpdateTaskInput, mockUserId)
+      ).rejects.toThrow(ForbiddenException);
     });
   });
+
 
   describe('delete', () => {
     it('should remove the task when user owns it', async () => {

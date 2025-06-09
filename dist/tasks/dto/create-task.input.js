@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateTaskInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const task_entity_1 = require("../entities/task.entity");
+const entities_1 = require("../entities");
 let CreateTaskInput = class CreateTaskInput {
     title;
     description;
@@ -27,7 +27,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateTaskInput.prototype, "description", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => String, { defaultValue: task_entity_1.TaskStatus.PENDING }),
+    (0, graphql_1.Field)(() => String, { defaultValue: entities_1.TaskStatus.PENDING }),
     __metadata("design:type", String)
 ], CreateTaskInput.prototype, "status", void 0);
 exports.CreateTaskInput = CreateTaskInput = __decorate([

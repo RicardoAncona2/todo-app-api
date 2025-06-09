@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { TaskStatus } from '../entities/task.entity';
+import { TaskStatus } from '@tasks/entities';
 
 @InputType()
 export class CreateTaskInput {

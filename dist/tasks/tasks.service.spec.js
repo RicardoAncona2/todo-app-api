@@ -76,7 +76,7 @@ describe('TasksService', () => {
                 where: { id: mockTask.id },
                 relations: ['user'],
             });
-            expect(mockRepo.save).toHaveBeenCalled();
+            expect(mockRepo.save).toHaveBeenCalledWith(expect.objectContaining(input));
             expect(result.title).toBe(input.title);
         });
         it('should throw NotFoundException if task not found', async () => {
