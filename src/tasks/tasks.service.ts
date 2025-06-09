@@ -26,21 +26,17 @@ export class TasksService {
 
     async update(id: string, input: UpdateTaskInput, userId: string): Promise<Task> {
         const task = await this.taskRepository.findOne({
-            where: { id },
+            where: { id, user: { id: userId } },
             relations: ['user'],
         });
-
         if (!task) {
-            throw new NotFoundException('Task not found');
+            throw new NotFoundException('Task not found or you do not have permission to update it');
         }
-
-        if (task.user.id !== userId) {
-            throw new ForbiddenException('You cannot update this task');
-        }
-
         Object.assign(task, input);
-        return this.taskRepository.save(task);
+        const updatedTask = await this.taskRepository.save(task);
+        return updatedTask;
     }
+
     async delete(id: string, userId: string): Promise<boolean> {
         const task = await this.taskRepository.findOne({
             where: { id },

@@ -1,7 +1,17 @@
-import { InputType, Field, PartialType } from '@nestjs/graphql';
-import { CreateTaskInput } from './create-task.input';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 
-@InputType()
-export class UpdateTaskInput extends PartialType(CreateTaskInput) {
-  // You can add extra fields here if needed, like `updatedAt`
+@ObjectType()
+export class UpdateTaskInput {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
+  title: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  status: 'PENDING' | 'IN_PROGRESS' | 'DONE';
+
 }
